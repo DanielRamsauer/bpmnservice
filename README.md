@@ -1,5 +1,5 @@
 # About
-The BPMN Service aims to provide a bridge between the workflow engine Zeebe [https://github.com/camunda/zeebe](https://github.com/camunda/zeebe) and MQTT.\
+The BPMN Service aims to provide a bridge between the workflow engine Zeebe ([https://github.com/camunda/zeebe](https://github.com/camunda/zeebe)) and MQTT.\
 Further, it provides funtionallity to parse .bpmn files and create instances of described BPMN-worflows within Zeebe.\
 This allows the BPMN Service to function as service orchestrator based on BPMN workflows as described below.
 
