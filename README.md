@@ -3,6 +3,12 @@ The BPMN Service aims to provide a bridge between the workflow engine Zeebe ([ht
 Further, it provides funtionallity to parse .bpmn files and create instances of described BPMN-worflows within Zeebe.\
 This allows the BPMN Service to function as service orchestrator based on BPMN workflows as described below.
 
+## Example
+A small example can be seen below, where an instance of a workflow starts a call to "Service A" over MQTT based on a BPMN workflow.\
+After the service finished processing the data and responses back via MQTT, the workflow splits into parallel sub-flows, allowing for concurrent processing of "Service B" and "Service C". 
+\
+![BPMNExample](diagrams/BPMNExample.png)
+
 # BPMN Service Description
 Pre-requisites
 - [Camunda Modeler](https://camunda.com/download/modeler/)
