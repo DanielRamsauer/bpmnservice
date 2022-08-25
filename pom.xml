@@ -11,7 +11,7 @@
 	<groupId>at.ac.tuwien.auto</groupId>
 	<artifactId>bpmn_service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>service_framework</name>
+	<name>bpmn_service</name>
 	<description>Framework for 5DIT project</description>
 	<properties>
 		<java.version>11</java.version>
@@ -100,9 +100,9 @@
 						<image>danielramsauer/bpmnservice:latest</image>
 					</to>
 					<container>
-						<ports>
-							<port>8080</port>
-						</ports>
+<!--						<ports>-->
+<!--							<port>8080</port>-->
+<!--						</ports>-->
 					</container>
 <!--					<extraDirectories>-->
 <!--						<paths>-->

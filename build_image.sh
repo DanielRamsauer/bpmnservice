@@ -1,1 +1,1 @@
-mvn clean compile jib:build
+./mvnw clean compile jib:build
