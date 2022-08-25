@@ -99,7 +99,7 @@ This indicates, that after reaching this task, a message with all variables of t
 The resulting MQTT topic is similar to the service task composed of the (prefix.message) prefix and the name of the topic as defined in the activity:\
 _E.g. prefix/messageToTopic_
 ### User Task
-User tasks can be handled by accessing [Simple-Tasklist(https://github.com/camunda-community-hub/zeebe-simple-tasklist), an open source worker with web interface for managing user tasks in a workflow. ([http://localhost:8081/](http://localhost:8081/))
+User tasks can be handled by accessing [Simple-Tasklist](https://github.com/camunda-community-hub/zeebe-simple-tasklist), an open source worker with web interface for managing user tasks in a workflow. ([http://localhost:8081/](http://localhost:8081/))
 
 ### Events
 Events can be divided into three categories: Start, intermediate and end events.\
