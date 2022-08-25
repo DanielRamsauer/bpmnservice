@@ -1,0 +1,95 @@
+version: '3.8'
+
+# start with docker-compose up -d
+
+networks:
+  my_network:
+    driver: bridge
+
+volumes:
+  dw_zeebe_data:
+  dw_zeebe_elasticsearch_data:
+
+services:
+  bpmnservice:
+    networks:
+      - my_network
+    depends_on:
+      - mqttbroker
+      - zeebe
+    restart: always
+    volumes:
+      - ./configuration/bpmnservice:/app/resources
+    image: danielramsauer/bpmnservice:latest
+  
+  zeebe:
+    image: ghcr.io/camunda-community-hub/zeebe-with-hazelcast-exporter:8.0.5
+    restart: always
+    environment:
+      - ZEEBE_LOG_LEVEL=debug
+    ports:
+      - 26500:26500
+      - 9600:9600
+      - 5701:5701
+    depends_on:
+      - elasticsearch
+    volumes:
+      - dw_zeebe_data:/usr/local/zeebe/data
+    networks:
+      - my_network
+      
+  simple-monitor:
+    image: ghcr.io/camunda-community-hub/zeebe-simple-monitor:2.4.0
+    environment:
+      - zeebe.client.broker.gateway-address=zeebe:26500
+      - zeebe.client.worker.hazelcast.connection=zeebe:5701
+    ports:
+      - 8082:8082
+    depends_on:
+      - zeebe
+    networks:
+      - my_network
+      
+  simple-tasklist:
+    image: camunda/zeebe-simple-tasklist:latest
+    environment:
+      - zeebe.client.broker.contactPoint=zeebe:26500
+      - zeebe.client.worker.hazelcast.connection=zeebe:5701
+    ports:
+      - 8081:8081
+    depends_on:
+      - zeebe
+    networks:
+      - my_network
+
+  elasticsearch:
+    image: elasticsearch:7.17.0
+    restart: always
+    ports:
+      - 9200:9200
+    environment:
+      - discovery.type=single-node
+      - cluster.name=elasticsearch
+      - "ES_JAVA_OPTS=-Xms1024m -Xmx2048m"
+      - bootstrap.memory_lock=true
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - dw_zeebe_elasticsearch_data:/usr/share/elasticsearch/data
+    networks:
+      - my_network
+  
+  mqttbroker:
+    ports:
+      - 1883:1883
+      - 9001:9001
+    networks:
+      - my_network
+    restart: always
+    volumes:
+      - ./configuration/broker/broker_data:/mosquitto/data
+      - ./configuration/broker/broker_logs:/mosquitto/log
+      - ./configuration/broker/broker_conf:/mosquitto/config
+    image: eclipse-mosquitto
